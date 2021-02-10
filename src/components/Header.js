@@ -4,7 +4,8 @@ import React from "react";
 function Header() {
   return (
     <>
-      <h1>The Callbacks Merch!</h1>
+      <h1>The Callbacks!!!</h1>
+      <h2>Snag some merch</h2>
     </>
   );
 }
