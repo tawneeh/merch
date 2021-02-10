@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function Item(prop) {
+function Item(props) {
   return(
     <>
-      <h3>{prop.name}</h3>
-      <p>{prop.description}</p>
-      <p>{prop.quantity}</p>
-      <hr/>
+      <div onClick = {() => props.whenItemClicked(props.id)}>
+        <h3>{props.name}</h3>
+        <p>{props.description}</p>
+        <p>{props.quantity}</p>
+        <hr/>
+      </div>
     </>
   );
 }
@@ -15,7 +17,9 @@ function Item(prop) {
 Item.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  quantity: PropTypes.number.isRequired
+  quantity: PropTypes.number.isRequired,
+  id: PropTypes.string,
+  whenItemClicked: PropTypes.func
 };
 
 export default Item;
