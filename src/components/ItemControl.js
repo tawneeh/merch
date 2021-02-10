@@ -17,9 +17,9 @@ class ItemControl extends React.Component {
   handleDeletingItem = (id) => {
     const newMasterItemList = this.state.masterItemList.filter(item => item.id !== id);
     this.setState({
-      materItemList: newMasterItemList,
-      selectedTicket: null
-    })
+      masterItemList: newMasterItemList,
+      selectedItem: null
+    });
   }
 
   handleChangingSelectedItem = (id) => {
