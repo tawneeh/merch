@@ -3,6 +3,7 @@ import NewItemForm from "./NewItemForm";
 import ItemList from "./ItemList";
 import ItemDetail from "./ItemDetail";
 import EditItemForm from "./EditItemForm";
+import CartList from "./CartList";
 
 class ItemControl extends React.Component {
 
@@ -12,7 +13,10 @@ class ItemControl extends React.Component {
       formVisibleOnPage: false,
       masterItemList: [],
       selectedItem: null,
-      editing: false
+      editing: false,
+      buying: false,
+      cartList: [],
+      cartView: false
     };
   }
 
@@ -23,6 +27,18 @@ class ItemControl extends React.Component {
       .concat(itemToEdit);
     this.setState({
       masterItemList: editedMasterItemList,
+      editing: false,
+      selectedItem: null
+    });
+  }
+
+  // Handle adding item to cart - onClickingBuy
+  handleAddingItemToCart = (itemToAdd) => {
+    const newCartList = this.state.cartList
+      .filter(item => item.id !== this.state.selectedItem.id)
+      .concat(itemToAdd);
+    this.setState({
+      cartList: newCartList,
       editing: false,
       selectedItem: null
     });
@@ -56,7 +72,8 @@ class ItemControl extends React.Component {
       this.setState({
         formVisibleOnPage: false,
         selectedItem: null,
-        editing: false
+        editing: false,
+        cartView: false
       });
     } else {
       this.setState(prevState => ({
@@ -72,15 +89,30 @@ class ItemControl extends React.Component {
   }
 
   // Handle buy item button click event
+  handleBuyClick = () => {
+    console.log("handleBuyClick reached!");
+    this.setState({buying: true});
+  }
 
+  // Handle view cart button click event
+  handleViewCartClick = () => {
+    console.log("Cart View Activated!");
+    this.setState({cartView: true});
+  }
+
+  // add if statement to view cartlist 
   render() {
     let currentVisibleState = null;
     let buttonText = null;
-    if (this.state.editing) {
+    let viewCartButton = "View Cart";
+    if (this.state.cartView) {
+      currentVisibleState = <CartList cartList={this.state.cartList} />
+      buttonText = "Return to Item List";
+    } else if (this.state.editing) {
       currentVisibleState = <EditItemForm item = {this.state.selectedItem} onEditItem = {this.handleEditingItemInList} />
       buttonText = "Return to Item List";
     } else if (this.state.selectedItem != null) {
-      currentVisibleState = <ItemDetail item = {this.state.selectedItem} onClickingDelete = {this.handleDeletingItem} onClickingEdit = {this.handleEditClick} />
+      currentVisibleState = <ItemDetail item = {this.state.selectedItem} onClickingDelete = {this.handleDeletingItem} onClickingEdit = {this.handleEditClick} onClickingBuy = {this.handleAddingItemToCart} />
       buttonText = "Return to Item List";
     } else if (this.state.formVisibleOnPage) {
       currentVisibleState = <NewItemForm onNewItemCreation={this.handleAddingNewItemToList} />
@@ -93,6 +125,7 @@ class ItemControl extends React.Component {
       <>
         {currentVisibleState}
         <button onClick={this.handleClick}>{buttonText}</button>
+        <button onClick={this.handleViewCartClick}>{viewCartButton}</button>
       </>
     );
   }
