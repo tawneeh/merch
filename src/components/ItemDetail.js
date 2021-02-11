@@ -10,6 +10,7 @@ function ItemDetail(props){
       <h3>{item.name}</h3>
       <p>{item.description}</p>
       <p>{item.quantity}</p>
+      <button onClick={ props.onClickingEdit}>Update Item</button>
       <button onClick={ () => onClickingDelete(item.id) }>Delete Item</button>
       <hr/>
     </>
@@ -18,7 +19,8 @@ function ItemDetail(props){
 
 ItemDetail.propTypes = {
   item: PropTypes.object,
-  onClickingDelete: PropTypes.func
+  onClickingDelete: PropTypes.func,
+  onClickingEdit: PropTypes.func
 };
 
 export default ItemDetail;

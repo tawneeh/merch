@@ -2,6 +2,7 @@ import React from "react";
 import NewItemForm from "./NewItemForm";
 import ItemList from "./ItemList";
 import ItemDetail from "./ItemDetail";
+import EditItemForm from "./EditItemForm";
 
 class ItemControl extends React.Component {
 
@@ -10,8 +11,25 @@ class ItemControl extends React.Component {
     this.state = {
       formVisibleOnPage: false,
       masterItemList: [],
-      selectedItem: null
+      selectedItem: null,
+      editing: false
     };
+  }
+
+  handleEditingItemInList = (itemToEdit) => {
+    const editedMasterItemList = this.state.masterItemList
+      .filter(item => item.id !== this.state.selectedItem.id) 
+      .concat(itemToEdit);
+    this.setState({
+      masterItemList: editedMasterItemList,
+      editing: false,
+      selectedItem: null
+    });
+  }
+
+  handleEditClick = () => {
+    console.log("handleEditClick reached!");
+    this.setState({editing: true});
   }
 
   handleDeletingItem = (id) => {
@@ -37,7 +55,8 @@ class ItemControl extends React.Component {
     if (this.state.selectedItem != null) {
       this.setState({
         formVisibleOnPage: false,
-        selectedItem: null
+        selectedItem: null,
+        editing: false
       });
     } else {
       this.setState(prevState => ({
@@ -49,8 +68,11 @@ class ItemControl extends React.Component {
   render() {
     let currentVisibleState = null;
     let buttonText = null;
-    if (this.state.selectedItem != null) {
-      currentVisibleState = <ItemDetail item = {this.state.selectedItem} onClickingDelete = {this.handleDeletingItem} />
+    if (this.state.editing) {
+      currentVisibleState = <EditItemForm item = {this.state.selectedItem} onEditItem = {this.handleEditingItemInList} />
+      buttonText = "Return to Item List";
+    } else if (this.state.selectedItem != null) {
+      currentVisibleState = <ItemDetail item = {this.state.selectedItem} onClickingDelete = {this.handleDeletingItem} onClickingEdit = {this.handleEditClick} />
       buttonText = "Return to Item List";
     } else if (this.state.formVisibleOnPage) {
       currentVisibleState = <NewItemForm onNewItemCreation={this.handleAddingNewItemToList} />
