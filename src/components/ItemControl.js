@@ -16,6 +16,7 @@ class ItemControl extends React.Component {
     };
   }
 
+  // Handle editing item in list
   handleEditingItemInList = (itemToEdit) => {
     const editedMasterItemList = this.state.masterItemList
       .filter(item => item.id !== this.state.selectedItem.id)
@@ -27,11 +28,7 @@ class ItemControl extends React.Component {
     });
   }
 
-  handleEditClick = () => {
-    console.log("handleEditClick reached!");
-    this.setState({editing: true});
-  }
-
+  // Handle deleting item from list
   handleDeletingItem = (id) => {
     const newMasterItemList = this.state.masterItemList.filter(item => item.id !== id);
     this.setState({
@@ -40,17 +37,20 @@ class ItemControl extends React.Component {
     });
   }
 
+  // Handle selecting item for details page
   handleChangingSelectedItem = (id) => {
     const selectedItem = this.state.masterItemList.filter(item => item.id === id)[0]; // 0 here because the array will only have one element (the item id)
     this.setState({selectedItem: selectedItem});
   }
 
+  // Handle creating a new item
   handleAddingNewItemToList = (newItem) => {
     const newMasterItemList = this.state.masterItemList.concat(newItem);
     this.setState({masterItemList: newMasterItemList,
                   formVisibleOnPage: false});
   }
 
+  // Handle visible button click events
   handleClick = () => {
     if (this.state.selectedItem != null) {
       this.setState({
@@ -64,6 +64,14 @@ class ItemControl extends React.Component {
       }));
     }
   }
+
+  // Handle edit button click event
+  handleEditClick = () => {
+    console.log("handleEditClick reached!");
+    this.setState({editing: true});
+  }
+
+  // Handle buy item button click event
 
   render() {
     let currentVisibleState = null;
