@@ -18,7 +18,7 @@ class ItemControl extends React.Component {
 
   handleEditingItemInList = (itemToEdit) => {
     const editedMasterItemList = this.state.masterItemList
-      .filter(item => item.id !== this.state.selectedItem.id) 
+      .filter(item => item.id !== this.state.selectedItem.id)
       .concat(itemToEdit);
     this.setState({
       masterItemList: editedMasterItemList,
